@@ -1,4 +1,4 @@
-package com.accesorios.tyb.models.entity.services;
+package com.accesorios.tyb.models.services;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.accesorios.tyb.models.dao.IColorDao;
 import com.accesorios.tyb.models.entity.Color;
-import com.accesorios.tyb.models.entity.dao.IColorDao;
 
 @Service
 public class ColorServiceImpl implements IColorService {

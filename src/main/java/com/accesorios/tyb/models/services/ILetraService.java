@@ -1,4 +1,4 @@
-package com.accesorios.tyb.models.entity.services;
+package com.accesorios.tyb.models.services;
 
 import java.util.List;
 

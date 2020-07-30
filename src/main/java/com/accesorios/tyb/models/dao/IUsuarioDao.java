@@ -1,4 +1,4 @@
-package com.accesorios.tyb.models.entity.dao;
+package com.accesorios.tyb.models.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
