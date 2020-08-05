@@ -2,6 +2,7 @@ package com.accesorios.tyb.controllers;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,16 +76,11 @@ public class ClienteRestController {
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 		Cliente clienteNew = null;
 		Map<String, Object> response = new HashMap<>();
+		List<String> errors = new ArrayList<String>();
 
 		if (result.hasErrors()) {
-
-			/*
-			 * List<String> errors = new ArrayList<>(); for(FieldError err:
-			 * result.getFieldErrors()) { errors.add("El campo " + err.getField() + "' " +
-			 * err.getDefaultMessage()); }
-			 */
-			List<String> errors = result.getFieldErrors().stream()
-					.map(err -> "El campo " + err.getField() + "' " + err.getDefaultMessage())
+			errors = result.getFieldErrors().stream()
+					.map(err -> "El campo " + err.getField() + " " + err.getDefaultMessage())
 					.collect(Collectors.toList());
 
 			response.put("errors", errors);
@@ -94,6 +90,13 @@ public class ClienteRestController {
 		try {
 			clienteNew = clienteService.save(cliente);
 		} catch (DataAccessException e) {
+			if(e.getMostSpecificCause().getMessage().contains("Duplicate") && e.getMostSpecificCause().getMessage().contains("@")) {
+				errors.add("El email ya existe");
+				response.put("errors", errors);
+			}else if(e.getMostSpecificCause().getMessage().contains("Duplicate")) {
+				errors.add("El RUC ya esta registrado");
+				response.put("errors", errors);
+			}
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);

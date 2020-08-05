@@ -16,9 +16,15 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.MetaValue;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -33,19 +39,24 @@ public class Cliente implements Serializable {
 	private Long id;
 
 	@NotEmpty(message = "No puede estar vacio")
-	@Size(min = 4, max = 12, message = "Tiene que estar entre 4 y 12 caracteres")
+	@Size(min = 4, max = 100, message = "Tiene que estar entre 4 y 100 caracteres")
 	@Column(nullable = false)
 	private String nombre;
 
-	@Column(unique = true, length = 11)
+	@NotEmpty(message = "No puede estar vacio")
+	@Size(min = 11, max = 11, message = "Debe tener 11 números")
+	@Column(unique = true)
 	private String ruc;
 
 	@Column(name = "direccion_fiscal")
 	private String direccionFiscal;
 	private Boolean estado;
+	
 	private Boolean deudor;
 
-	@Column(unique = true)
+	@NotEmpty(message = "No puede estar vacio")
+	@Email(message = "No es un email valido")
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "fecha_creacion")

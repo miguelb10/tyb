@@ -38,6 +38,8 @@ public class ClienteServiceImpl implements IClienteService{
 	@Override
 	@Transactional
 	public Cliente save(Cliente cliente) {
+		cliente.setDeudor(false);
+		cliente.setEstado(true);
 		return clienteDao.save(cliente);
 	}
 
