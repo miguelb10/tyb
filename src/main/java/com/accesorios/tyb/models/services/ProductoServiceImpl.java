@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.accesorios.tyb.models.dao.IProductoDao;
+import com.accesorios.tyb.models.entity.Cliente;
 import com.accesorios.tyb.models.entity.Producto;
 
 @Service
@@ -44,7 +45,9 @@ public class ProductoServiceImpl implements IProductoService{
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		productoDao.deleteById(id);
+		Producto producto = findById(id);
+		producto.setEstado(false);
+		productoDao.save(producto);
 	}
 
 }

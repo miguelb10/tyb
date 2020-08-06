@@ -38,6 +38,8 @@ public class Producto implements Serializable {
 	@JoinColumn(name = "color_id")
 	private Color color;
 
+	private Boolean estado;
+
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
@@ -101,6 +103,14 @@ public class Producto implements Serializable {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }
