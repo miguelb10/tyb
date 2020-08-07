@@ -22,6 +22,10 @@ public class Color implements Serializable {
 	@Column(unique = true, length = 20)
 	private String nombre;
 
+	private String descripcion;
+
+	private Boolean estado;
+
 	public Long getId() {
 		return id;
 	}
@@ -37,4 +41,21 @@ public class Color implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
 }

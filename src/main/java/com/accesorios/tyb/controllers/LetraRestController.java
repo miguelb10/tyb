@@ -26,54 +26,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accesorios.tyb.models.entity.Color;
-import com.accesorios.tyb.models.entity.Producto;
-import com.accesorios.tyb.models.services.IColorService;
-import com.accesorios.tyb.models.services.IProductoService;
+import com.accesorios.tyb.models.entity.Letra;
+import com.accesorios.tyb.models.services.ILetraService;
 
 @CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping("/api")
-public class ProductoRestController {
-
+public class LetraRestController {
 	@Autowired
-	private IProductoService productoService;
+	private ILetraService letraService;
 	
-	@Autowired
-	private IColorService colorService;
-	
-	@GetMapping("productos")
-	public List<Producto> index() {
-		return productoService.findAll();
+	@GetMapping("letras")
+	public List<Letra> index() {
+		return letraService.findAll();
 	}
 
-	@GetMapping("productos/page/{page}")
-	public Page<Producto> index(@PathVariable Integer page) {
-		return productoService.findAll(PageRequest.of(page, 5));
+	@GetMapping("letras/page/{page}")
+	public Page<Letra> index(@PathVariable Integer page) {
+		return letraService.findAll(PageRequest.of(page, 5));
 	}
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@GetMapping("productos/{id}")
+	@GetMapping("letras/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
-		Producto producto = null;
+		Letra letra = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			producto = productoService.findById(id);
+			letra = letraService.findById(id);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		if (producto == null) {
-			response.put("mensaje", "El producto ID: ".concat(id.toString().concat("no existe en la base de datos!")));
+		if (letra == null) {
+			response.put("mensaje", "La letra ID: ".concat(id.toString().concat("no existe en la base de datos!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+		return new ResponseEntity<Letra>(letra, HttpStatus.OK);
 	}
 
 	@Secured("ROLE_ADMIN")
-	@PostMapping("productos")
-	public ResponseEntity<?> create(@Valid @RequestBody Producto producto, BindingResult result) {
-		Producto productoNew = null;
+	@PostMapping("letras")
+	public ResponseEntity<?> create(@Valid @RequestBody Letra letra, BindingResult result) {
+		Letra letraNew = null;
 		Map<String, Object> response = new HashMap<>();
 		List<String> errors = new ArrayList<String>();
 
@@ -87,22 +81,22 @@ public class ProductoRestController {
 		}
 
 		try {
-			productoNew = productoService.save(producto);
+			letraNew = letraService.save(letra);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "El producto ha sido creado con éxito!");
-		response.put("producto", productoNew);
+		response.put("mensaje", "La letra ha sido creado con éxito!");
+		response.put("letra", letraNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@Secured("ROLE_ADMIN")
-	@PutMapping("productos/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
-		Producto productoActual = productoService.findById(id);
-		Producto productoUpdated = null;
+	@PutMapping("letras/{id}")
+	public ResponseEntity<?> update(@Valid @RequestBody Letra letra, BindingResult result, @PathVariable Long id) {
+		Letra letraActual = letraService.findById(id);
+		Letra letraUpdated = null;
 		Map<String, Object> response = new HashMap<>();
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream()
@@ -112,47 +106,45 @@ public class ProductoRestController {
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		if (productoActual == null) {
-			response.put("mensaje", "Error: no se pudo editar, el producto ID: "
+		if (letraActual == null) {
+			response.put("mensaje", "Error: no se pudo editar, la letra ID: "
 					.concat(id.toString().concat("no existe en la base de datos!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		try {
-			productoActual.setNombre(producto.getNombre());
-			productoActual.setDescripcion(producto.getDescripcion());
-			productoActual.setPrecio(producto.getPrecio());
-			productoActual.setStock(producto.getStock());
-			productoActual.setColor(producto.getColor());
+			letraActual.setNombre(letra.getNombre());
+			letraActual.setDescripcion(letra.getDescripcion());
+			letraActual.setTotal(letra.getTotal());
+			letraActual.setAdelanto(letra.getAdelanto());
+			letraActual.setPorcentaje(letra.getPorcentaje());
+			letraActual.setEstado(letra.getEstado());
+			letraActual.setFactura(letra.getFactura());
+			letraActual.setFechaCreacion(letra.getFechaCreacion());
+			letraActual.setFechaVencimiento(letra.getFechaVencimiento());
 
-			productoUpdated = productoService.save(productoActual);
+			letraUpdated = letraService.save(letraActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "El producto ha sido actualizado con éxito!");
-		response.put("producto", productoUpdated);
+		response.put("mensaje", "La letra ha sido actualizado con éxito!");
+		response.put("letra", letraUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
 	@Secured("ROLE_ADMIN")
-	@DeleteMapping("productos/{id}")
+	@DeleteMapping("letras/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			productoService.delete(id);
+			letraService.delete(id);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al eliminar el producto de la base de datos");
+			response.put("mensaje", "Error al eliminar el registro de la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "El producto ha sido eliminado con éxito");
+		response.put("mensaje", "La letra ha sido eliminado con éxito");
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}
-	
-	@Secured("ROLE_ADMIN")
-	@GetMapping("productos/colors")
-	public List<Color> listarRegiones(){
-		return colorService.findAll();
 	}
 }

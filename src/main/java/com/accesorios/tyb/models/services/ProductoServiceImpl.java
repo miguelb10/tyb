@@ -9,15 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.accesorios.tyb.models.dao.IProductoDao;
-import com.accesorios.tyb.models.entity.Cliente;
 import com.accesorios.tyb.models.entity.Producto;
 
 @Service
-public class ProductoServiceImpl implements IProductoService{
+public class ProductoServiceImpl implements IProductoService {
 
 	@Autowired
 	private IProductoDao productoDao;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Producto> findAll() {

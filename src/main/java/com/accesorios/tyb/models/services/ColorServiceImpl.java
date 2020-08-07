@@ -44,6 +44,9 @@ public class ColorServiceImpl implements IColorService {
 	@Override
 	@Transactional
 	public void delete(Long id) {
+		Color color = findById(id);
+		color.setEstado(false);
+		colorDao.save(color);
 	}
 
 }

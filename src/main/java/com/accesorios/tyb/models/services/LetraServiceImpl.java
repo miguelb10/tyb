@@ -44,7 +44,9 @@ public class LetraServiceImpl implements ILetraService{
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		letraDao.deleteById(id);
+		Letra letra = findById(id);
+		letra.setEstado("Anulado");
+		letraDao.save(letra);		
 	}
 
 }
