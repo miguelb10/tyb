@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cajas")
@@ -26,6 +27,8 @@ public class Caja implements Serializable {
 	private String motivo;
 	private String responsable;
 	private String descripcion;
+
+	@NotNull(message = "El color no puede ser vacia")
 	private String tipo;
 	private Double monto;
 	private Double saldo;

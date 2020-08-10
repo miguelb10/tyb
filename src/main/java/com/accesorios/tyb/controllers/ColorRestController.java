@@ -44,7 +44,7 @@ public class ColorRestController {
 
 	@GetMapping("colors/page/{page}")
 	public Page<Color> index(@PathVariable Integer page) {
-		return colorService.findAll(PageRequest.of(page, 5));
+		return colorService.findAllByEstado(PageRequest.of(page, 5));
 	}
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("colors/{id}")

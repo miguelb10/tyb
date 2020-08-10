@@ -20,4 +20,6 @@ public interface IUsuarioService {
 	public Usuario save(Usuario usuario);
 	
 	public void delete(Long id);
+
+	public Page<Usuario> findAllByEstado(Pageable pageable);
 }

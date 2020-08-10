@@ -19,4 +19,6 @@ public interface ILetraService {
 	public Letra save(Letra letra);
 	
 	public void delete(Long id);
+
+	public Page<Letra> findAllByEstado(Pageable pageable);
 }

@@ -51,4 +51,10 @@ public class ClienteServiceImpl implements IClienteService{
 		clienteDao.save(cliente);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Cliente> findAllByEstado(Pageable pageable) {		
+		return clienteDao.findByEstado(true, pageable);
+	}
+
 }

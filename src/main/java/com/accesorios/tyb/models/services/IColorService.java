@@ -18,4 +18,6 @@ public interface IColorService {
 	public Color save(Color color);
 	
 	public void delete(Long id);
+	
+	public Page<Color> findAllByEstado(Pageable pageable);
 }

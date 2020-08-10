@@ -49,4 +49,15 @@ public class ProductoServiceImpl implements IProductoService {
 		productoDao.save(producto);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findByNombre(String nombre) {
+		return productoDao.findByNombre(nombre);
+	}
+
+	@Override
+	public Page<Producto> findAllByEstado(Pageable pageable) {
+		return productoDao.findByEstado(true, pageable);
+	}
+
 }

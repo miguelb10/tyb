@@ -49,4 +49,9 @@ public class ColorServiceImpl implements IColorService {
 		colorDao.save(color);
 	}
 
+	@Override
+	public Page<Color> findAllByEstado(Pageable pageable) {	
+		return colorDao.findByEstado(true, pageable);
+	}
+
 }

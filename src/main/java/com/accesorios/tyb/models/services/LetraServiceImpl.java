@@ -49,4 +49,9 @@ public class LetraServiceImpl implements ILetraService{
 		letraDao.save(letra);		
 	}
 
+	@Override
+	public Page<Letra> findAllByEstado(Pageable pageable) {	
+		return letraDao.findByEstado(true, pageable);
+	}
+
 }

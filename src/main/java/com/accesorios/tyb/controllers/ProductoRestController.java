@@ -49,7 +49,7 @@ public class ProductoRestController {
 
 	@GetMapping("productos/page/{page}")
 	public Page<Producto> index(@PathVariable Integer page) {
-		return productoService.findAll(PageRequest.of(page, 5));
+		return productoService.findAllByEstado(PageRequest.of(page, 5));
 	}
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("productos/{id}")

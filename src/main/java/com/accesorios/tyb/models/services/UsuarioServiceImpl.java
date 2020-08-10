@@ -79,4 +79,9 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService{
 		return usuarioDao.findByUsername(username);
 	}
 
+	@Override
+	public Page<Usuario> findAllByEstado(Pageable pageable) {	
+		return usuarioDao.findByEstado(true, pageable);
+	}
+
 }
