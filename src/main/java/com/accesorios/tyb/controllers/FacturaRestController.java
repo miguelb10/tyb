@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accesorios.tyb.models.entity.Cliente;
 import com.accesorios.tyb.models.entity.Factura;
 import com.accesorios.tyb.models.entity.Producto;
+import com.accesorios.tyb.models.services.IClienteService;
 import com.accesorios.tyb.models.services.IFacturaService;
 import com.accesorios.tyb.models.services.IProductoService;
 
@@ -32,6 +34,9 @@ public class FacturaRestController {
 
 	@Autowired
 	private IProductoService productoService;
+
+	@Autowired
+	private IClienteService clienteService;
 	
 	@GetMapping("facturas")
 	public List<Factura> index() {
@@ -64,6 +69,13 @@ public class FacturaRestController {
 		return productoService.findByNombre(term);
 	}
 
+	//@Secured({"ROLE_ADMIN"})
+	@GetMapping("facturas/filtrar-clientes/{term}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<Cliente> filtrarClientes(@PathVariable String term){
+		return clienteService.findByNombre(term);
+	}
+	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping("facturas")
 	@ResponseStatus(code = HttpStatus.CREATED)

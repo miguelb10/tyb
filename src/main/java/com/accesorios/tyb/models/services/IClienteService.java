@@ -20,4 +20,6 @@ public interface IClienteService {
 	public void delete(Long id);
 
 	public Page<Cliente> findAllByEstado(Pageable pageable);
+	
+	public List<Cliente> findByNombre(String nombre);
 }

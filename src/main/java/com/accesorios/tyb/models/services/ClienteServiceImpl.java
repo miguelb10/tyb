@@ -57,4 +57,9 @@ public class ClienteServiceImpl implements IClienteService{
 		return clienteDao.findByEstado(true, pageable);
 	}
 
+	@Override
+	public List<Cliente> findByNombre(String nombre) {
+		return clienteDao.findByNombre(nombre);
+	}
+
 }
