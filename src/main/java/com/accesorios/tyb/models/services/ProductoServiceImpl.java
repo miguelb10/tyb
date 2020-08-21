@@ -38,6 +38,7 @@ public class ProductoServiceImpl implements IProductoService {
 	@Override
 	@Transactional
 	public Producto save(Producto producto) {
+		producto.setEstado(true);
 		return productoDao.save(producto);
 	}
 

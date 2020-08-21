@@ -15,7 +15,12 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.NumberFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,7 +36,12 @@ public class Producto implements Serializable {
 
 	private String nombre;
 	private String descripcion;
+	
+	@DecimalMin(value = "0.001", message = "Precio no valido")
 	private Double precio;
+	
+	@Min(0)
+	@NotNull(message = "El stock no puede ser vacio")
 	private Long stock;
 
 	@NotNull(message = "El color no puede ser vacia")
