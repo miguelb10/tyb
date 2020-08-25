@@ -10,6 +10,8 @@ import com.accesorios.tyb.models.entity.Factura;
 public interface IFacturaService {
 
 	public List<Factura> findAll();
+
+	public Factura lastFindByCorrelativoDesc();
 	
 	public Factura findById(Long id);
 

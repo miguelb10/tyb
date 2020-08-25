@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accesorios.tyb.models.entity.Cliente;
 import com.accesorios.tyb.models.entity.Factura;
 import com.accesorios.tyb.models.entity.Producto;
+import com.accesorios.tyb.models.entity.Serie;
 import com.accesorios.tyb.models.services.IClienteService;
 import com.accesorios.tyb.models.services.IFacturaService;
 import com.accesorios.tyb.models.services.IProductoService;
+import com.accesorios.tyb.models.services.ISerieService;
 
 @CrossOrigin(origins = {"http://localhost:4200", "*"})
 @RestController
@@ -38,9 +40,13 @@ public class FacturaRestController {
 	@Autowired
 	private IClienteService clienteService;
 	
+	@Autowired
+	private ISerieService serieService;
+	
 	@GetMapping("facturas")
-	public List<Factura> index() {
-		return facturaService.findAll();
+	public Factura index() {
+		//return facturaService.findAll();
+		return facturaService.lastFindByCorrelativoDesc();
 	}
 
 	@GetMapping("facturas/page/{page}")
@@ -80,6 +86,8 @@ public class FacturaRestController {
 	@PostMapping("facturas")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Factura crear(@RequestBody Factura factura) {
+		Serie serie = serieService.findById((long) 1);
+		factura.setSerie(serie);
 		return facturaService.save(factura);
 	}
 }

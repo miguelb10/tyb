@@ -38,6 +38,7 @@ public class FacturaServiceImpl implements IFacturaService {
 	@Override
 	@Transactional
 	public Factura save(Factura factura) {
+		factura.setTipoOperacion("Factura");
 		return facturaDao.save(factura);
 	}
 
@@ -45,6 +46,15 @@ public class FacturaServiceImpl implements IFacturaService {
 	@Transactional
 	public void delete(Long id) {
 		facturaDao.deleteById(id);
+	}
+
+	@Override
+	public Factura lastFindByCorrelativoDesc() {
+		try {
+			return facturaDao.findAllByOrderByCorrelativoDesc().get(0);
+		} catch (Exception e) {
+			return new Factura();
+		}
 	}
 
 }
