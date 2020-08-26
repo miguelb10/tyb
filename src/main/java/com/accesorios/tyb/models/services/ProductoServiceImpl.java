@@ -61,4 +61,9 @@ public class ProductoServiceImpl implements IProductoService {
 		return productoDao.findByEstado(true, pageable);
 	}
 
+	@Override
+	public Double sumPrecio() {
+		return productoDao.sumPrecio();
+	}
+
 }

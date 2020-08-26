@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.accesorios.tyb.models.dao.IUsuarioDao;
 import com.accesorios.tyb.models.entity.Usuario;
@@ -24,6 +25,9 @@ import com.accesorios.tyb.models.entity.Usuario;
 public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService{
 
 	private Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -49,6 +53,8 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService{
 	@Override
 	@Transactional
 	public Usuario save(Usuario usuario) {
+		String passwordBcrypt = passwordEncoder.encode(usuario.getPassword());
+		usuario.setPassword(passwordBcrypt);
 		return usuarioDao.save(usuario);
 	}
 

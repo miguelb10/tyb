@@ -15,4 +15,7 @@ public interface IProductoDao extends JpaRepository<Producto, Long> {
 	public List<Producto> findByNombre(String nombre);
 
 	Page<Producto> findByEstado(Boolean estado, Pageable pageable);
+	
+	@Query("select SUM(precio) from Producto")
+	public Double sumPrecio();
 }

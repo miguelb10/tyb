@@ -57,4 +57,9 @@ public class FacturaServiceImpl implements IFacturaService {
 		}
 	}
 
+	@Override
+	public Double totalFacturado() {
+		return facturaDao.totalFacturado();
+	}
+
 }

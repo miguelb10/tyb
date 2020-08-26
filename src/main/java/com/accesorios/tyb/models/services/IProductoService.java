@@ -22,4 +22,6 @@ public interface IProductoService {
 	public List<Producto> findByNombre(String nombre);
 
 	public Page<Producto> findAllByEstado(Pageable pageable);
+	
+	public Double sumPrecio();
 }

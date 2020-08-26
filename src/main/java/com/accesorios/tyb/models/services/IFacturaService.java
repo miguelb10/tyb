@@ -20,4 +20,6 @@ public interface IFacturaService {
 	public Factura save(Factura factura);
 	
 	public void delete(Long id);
+
+	public Double totalFacturado();
 }
