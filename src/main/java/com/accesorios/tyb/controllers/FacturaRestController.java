@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accesorios.tyb.models.entity.Cliente;
 import com.accesorios.tyb.models.entity.Factura;
+import com.accesorios.tyb.models.entity.GeneralSetting;
 import com.accesorios.tyb.models.entity.Producto;
 import com.accesorios.tyb.models.entity.Serie;
 import com.accesorios.tyb.models.services.IClienteService;
 import com.accesorios.tyb.models.services.IFacturaService;
+import com.accesorios.tyb.models.services.IGeneralSettingService;
 import com.accesorios.tyb.models.services.IProductoService;
 import com.accesorios.tyb.models.services.ISerieService;
 
@@ -42,6 +44,8 @@ public class FacturaRestController {
 	
 	@Autowired
 	private ISerieService serieService;
+	
+	@Autowired IGeneralSettingService generalSettingService;
 	
 	@GetMapping("facturas")
 	public Factura index() {
@@ -86,8 +90,13 @@ public class FacturaRestController {
 	@PostMapping("facturas")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Factura crear(@RequestBody Factura factura) {
-		Serie serie = serieService.findById((long) 1);
+		GeneralSetting generalSettingCorrelativo = generalSettingService.findByNombre("Correlativo");
+		Serie serie = serieService.findById(generalSettingService.findByNombre("Serie").getValorLong());
+		factura.setCorrelativo(generalSettingCorrelativo.getValorLong());
 		factura.setSerie(serie);
+
+		generalSettingCorrelativo.setValorLong(factura.getCorrelativo()+1);
+		generalSettingService.save(generalSettingCorrelativo);
 		return facturaService.save(factura);
 	}
 }
